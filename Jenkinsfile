@@ -25,7 +25,7 @@ pipeline {
                           script {
                             def scannerHome = tool name: 'sonar'
                             withSonarQubeEnv('sonarQube') {
-                                sh "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=devops_project"
+                                                sh '/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar/bin/sonar-scanner -Dsonar.projectKey=devops_project'
                             }
                         }
                          }
