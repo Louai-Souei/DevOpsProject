@@ -12,9 +12,7 @@ pipeline {
         }
 
         stage('Build') {
-            when {
-                changeRequest()
-            }
+
             steps {
                 dir('server') {
                     sh 'npm install'
