@@ -2,6 +2,15 @@ pipeline {
     agent any
 
     stages {
+        stage('Pipeline Entry') {
+            when {
+                changeRequest()
+            }
+            steps {
+                sh "echo Pipeline 1 Entry"
+            }
+        }
+
         stage('Build') {
             when {
                 changeRequest()
@@ -52,14 +61,24 @@ pipeline {
         }
     }
 }
+
 
 pipeline {
     agent any
 
     stages {
+        stage('Pipeline Entry') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                sh "echo Pipeline 2 Entry"
+            }
+        }
+
         stage('Build') {
             when {
-                branch 'dev'
+                branch 'develop'
             }
             steps {
                 dir('server') {
@@ -107,18 +126,28 @@ pipeline {
         }
     }
 }
+
 
 pipeline {
     agent any
 
     environment {
         DOCKER_HUB_USERNAME = 'louaisouei'
-        DOCKER_HUB_PASSWORD = 'louai2811'
+        DOCKER_HUB_PASSWORD = 'password'
         IMAGE_NAME = 'image-louai'
         BRANCH_NAME = "release"
     }
 
     stages {
+        stage('Pipeline Entry') {
+            when {
+                branch pattern: "release-.*", comparator: "REGEXP"
+            }
+            steps {
+                sh "echo Pipeline 3 Entry"
+            }
+        }
+
         stage('Build and Push Docker Image') {
             when {
                 branch pattern: "release-.*", comparator: "REGEXP"
