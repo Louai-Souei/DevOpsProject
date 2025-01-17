@@ -10,7 +10,7 @@ pipeline {
             }
         }
 
-        stage('Unit Test') {
+        stage('Unit & Integration Test') {
             steps {
                 dir('server') {
                     sh 'npm test'
@@ -31,15 +31,15 @@ pipeline {
             }
         }
 
-        stage('Integration Test') {
-            when {
-                changeRequest()
-            }
-            steps {
-                dir('server') {
-                    sh 'npm run integration-test'
-                }
-            }
-        }
+//         stage('Integration Test') {
+//             when {
+//                 changeRequest()
+//             }
+//             steps {
+//                 dir('server') {
+//                     sh 'npm run integration-test'
+//                 }
+//             }
+//         }
     }
 }
