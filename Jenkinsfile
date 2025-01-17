@@ -42,11 +42,9 @@ pipeline {
             steps {
                 script {
                     // Build Docker image with the tag as the branch name
-                    sh """
-                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME} ./server/Dockerfile .
-                        docker login -u ${DOCKER_HUB_USERNAME} -p QTpM;eC2#kj2nG*
-                        docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
-                    """
+                    sh 'docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME} ./server/Dockerfile .'
+                    sh 'docker login -u ${DOCKER_HUB_USERNAME} -p QTpM;eC2#kj2nG*'
+                    sh 'docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}'
                 }
             }
         }
