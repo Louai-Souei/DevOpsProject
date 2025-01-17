@@ -13,6 +13,7 @@ pipeline {
             steps {
             dir('server') {
                 sh 'npm test'
+
                  }
             }
         }
