@@ -45,7 +45,7 @@ pipeline {
                     cd server
                     ls
                     docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME} -f ./Dockerfile .
-                    docker login -u ${DOCKER_HUB_USERNAME} -p QTpM;eC2#kj2nG* --password-stdin
+                    echo "louai2811" | docker login -u louaisouei --password-stdin
                     docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
                 """
                 }
