@@ -41,7 +41,8 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME} -f ./server/Dockerfile .'
+                    sh 'cd server'
+                    sh 'docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME} -f .'
                     sh 'docker login -u ${DOCKER_HUB_USERNAME} -p QTpM;eC2#kj2nG*'
                     sh 'docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}'
                 }
