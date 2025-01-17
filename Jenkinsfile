@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_USERNAME = 'louaisouei'
-        DOCKER_HUB_PASSWORD = credentials('louai2811')
+        DOCKER_HUB_PASSWORD = 'louai2811'
         IMAGE_NAME = "image-louai"
         BRANCH_NAME = "release"
     }
