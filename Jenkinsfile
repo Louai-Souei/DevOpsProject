@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_USERNAME = 'louaisouei'  // Votre nom d'utilisateur DockerHub
-        IMAGE_NAME = "image-louai"  // Nom de votre image Docker
-        BRANCH_NAME = "release"  // Utilise le nom de la branche pour tagger l'image
+        DOCKER_HUB_USERNAME = 'louaisouei'
+        DOCKER_HUB_PASSWORD = credentials('louai2811')
+        IMAGE_NAME = "image-louai"
+        BRANCH_NAME = "release"
     }
 
     stages {
@@ -37,39 +38,26 @@ pipeline {
             }
         }
 
-        // Stage 1: Build and Push Docker Image
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                sh """
-                    cd server
-                    ls
-                    docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME} -f ./Dockerfile .
-                    echo "louai2811" | docker login -u louaisouei --password-stdin
-                    docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
-                """
-                }
-            }
-        }
-
-        // Stage 2: Deploy Application
-        stage('Deploy Application') {
-            steps {
-                script {
-                    // Deploy the Docker image using docker-compose
                     sh """
-                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
-                        docker-compose -f docker-compose.yml up -d
+                        cd server
+                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME} -f ./Dockerfile .
+                        echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
+                        docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
                     """
                 }
             }
         }
 
-        // Stage 3: Build Images (if needed)
-        stage('Build Images') {
+        stage('Deploy Application') {
             steps {
                 script {
-                    sh 'docker-compose up -d'
+                    sh """
+                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
+                        docker-compose -f docker-compose.yml up -d
+                    """
                 }
             }
         }
