@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        docker pull 'ksksksks'/${IMAGE_NAME}:${BRANCH_NAME}
+                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
                         docker-compose -f docker-compose.yml up -d
                     """
                 }
