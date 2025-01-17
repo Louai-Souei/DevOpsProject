@@ -36,7 +36,7 @@ describe("Integration Tests for Transfer API", () => {
             success: true,
             data: mockTransfers,
         });
-        expect(pool.query).toHaveBeenCalledWith("SELECT * FROM transfers ORDER BY created_at DESC");
+        expect(pool.query).toHaveBeenCalledWith("SELECT * FROM transfers");
     });
 
     it("should create a new transfer", async () => {

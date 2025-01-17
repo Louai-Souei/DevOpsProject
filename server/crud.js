@@ -9,8 +9,6 @@ async function getAllTransfers() {
 // Create a new transfer
 async function createTransfer(transfer) {
     const { name, amount } = transfer;
-    console.log("name", name);
-    console.log("amount", amount);
     const result = await pool.query(
         "INSERT INTO transfers (name, amount) VALUES ($1, $2) RETURNING *",
         [name, amount]

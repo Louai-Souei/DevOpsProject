@@ -37,7 +37,6 @@ app.get("/", (req, res) => {
 
 app.get("/transfers/all", async (req, res) => {
   try {
-    console.log("req reçuuuuuuuuuu")
     const transfers = await getAllTransfers();
     res.status(200).json({ success: true, data: transfers });
   } catch (err) {

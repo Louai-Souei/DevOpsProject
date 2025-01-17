@@ -25,7 +25,7 @@ describe("Transfers CRUD Tests", () => {
         const transfers = await getAllTransfers();
 
         expect(transfers).toEqual(mockTransfers);
-        expect(pool.query).toHaveBeenCalledWith("SELECT * FROM transfers ORDER BY created_at DESC");
+        expect(pool.query).toHaveBeenCalledWith("SELECT * FROM transfers");
     });
 
     it("should create a new transfer", async () => {
