@@ -1,0 +1,152 @@
+/* MainContainer Styling */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Purple background */
+    color: #000000; /* White text */
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 36px;
+    color: #000000; /* White header */
+}
+
+/* Transfer List Styling */
+.transfer-list {
+    margin-bottom: 30px;
+}
+
+.transfer-list h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.transfer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.transfer-info {
+    max-width: 70%;
+}
+
+.transfer-info strong {
+    font-size: 18px;
+    color: #444;
+}
+
+.transfer-info p {
+    font-size: 16px;
+    color: #666;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+    color: #333;
+}
+
+/* Add Transfer Button */
+.add-btn {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #000000;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #218838;
+}
+
+/* Modal/Dialog Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.close-btn {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-btn:hover {
+    background-color: #c82333;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
