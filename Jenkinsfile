@@ -17,5 +17,12 @@ pipeline {
                  }
             }
         }
+          stage('Build Images') {
+                    steps {
+                        script {
+                            sh 'docker-compose up --build'
+                        }
+                    }
+                }
       }
       }
