@@ -69,7 +69,7 @@ pipeline {
     stages {
         stage('Pipeline Entry') {
             when {
-                branch 'develop'
+                branch 'dev'
             }
             steps {
                 sh "echo Pipeline 2 Entry"
@@ -78,7 +78,7 @@ pipeline {
 
         stage('Build') {
             when {
-                branch 'develop'
+                branch 'dev'
             }
             steps {
                 dir('server') {
@@ -89,7 +89,7 @@ pipeline {
 
         stage('Unit Test') {
             when {
-                branch 'develop'
+                branch 'dev'
             }
             steps {
                 dir('server') {
@@ -100,7 +100,7 @@ pipeline {
 
         stage('SonarQube analysis (Optional)') {
             when {
-                branch 'develop'
+                branch 'dev'
             }
             steps {
                 dir('server') {
@@ -116,7 +116,7 @@ pipeline {
 
         stage('Integration Test') {
             when {
-                branch 'develop'
+                branch 'dev'
             }
             steps {
                 dir('server') {
@@ -133,7 +133,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_USERNAME = 'louaisouei'
-        DOCKER_HUB_PASSWORD = 'password'
+        DOCKER_HUB_PASSWORD = 'louai2811'
         IMAGE_NAME = 'image-louai'
         BRANCH_NAME = "release"
     }
