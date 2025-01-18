@@ -10,45 +10,30 @@ pipeline {
     }
 
     stages {
-        stage('Build and Push Docker Image') {
+        stage('Pull Docker Images') {
             steps {
                 script {
-                    echo "BRANCH_NAME: ${env.BRANCH_NAME}"
-                    echo "BRANCH: ${BRANCH}"
+                    echo "Pulling Docker images for branch: ${BRANCH}"
 
-                    dir('client') {
-                        sh """
-                            echo "Building and pushing front image: ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}"
-                            docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH} -f ./Dockerfile .
-                            echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
-                            docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
-                        """
-                    }
-                    dir('server') {
-                        sh """
-                            echo "Building and pushing back image: ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}"
-                            docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH} -f ./Dockerfile .
-                            echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
-                            docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
-                        """
-                    }
+                    sh """
+                        echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
+                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
+                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
+                    """
                 }
             }
         }
 
-        stage('Deploy Application') {
+        stage('Run Application with Pulled Images') {
             steps {
                 script {
                     sh """
-                        echo "Pulling back image: ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}"
-                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
-
-                        echo "Pulling front image: ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}"
-                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
-
-                        echo "Restarting application with docker-compose"
+                        echo "Stopping and removing existing containers"
                         docker-compose -f docker-compose.yml down
-                        docker-compose -f docker-compose.yml up -d
+
+                        echo "Running application using pulled images"
+                        docker run -d --name api --network pipeline3_default ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
+                        docker run -d --name client --network pipeline3_default ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
                     """
                 }
             }
