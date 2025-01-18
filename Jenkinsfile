@@ -68,16 +68,16 @@ pipeline {
             }
         }
 
-        stage('Restart with Docker Compose') {
-            steps {
-                script {
-                    sh """
-                        echo "Restarting application with docker-compose"
-                        docker-compose -f docker-compose.yml down
-                        docker-compose -f docker-compose.yml up -d
-                    """
-                }
-            }
-        }
+//         stage('Restart with Docker Compose') {
+//             steps {
+//                 script {
+//                     sh """
+//                         echo "Restarting application with docker-compose"
+//                         docker-compose -f docker-compose.yml down
+//                         docker-compose -f docker-compose.yml up -d
+//                     """
+//                 }
+//             }
+//         }
     }
 }
