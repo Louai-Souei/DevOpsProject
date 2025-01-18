@@ -4,8 +4,8 @@ pipeline {
     environment {
         DOCKER_HUB_USERNAME = 'louaisouei'
         DOCKER_HUB_PASSWORD = 'louai2811'
-        IMAGE_NAME = 'image-louai'
-        BRANCH_NAME = "release"
+        RELEASE_VERSION = env.BRANCH_NAME.replace('release-', '')
+        IMAGE_NAME = 'louai/crud-transfers-app'
     }
 
     stages {
@@ -14,9 +14,9 @@ pipeline {
                 script {
                     sh """
                         cd server
-                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME} -f ./Dockerfile .
+                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${RELEASE_VERSION} -f ./Dockerfile .
                         echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
-                        docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
+                        docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${RELEASE_VERSION}
                     """
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH_NAME}
+                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${RELEASE_VERSION}
                         docker-compose -f docker-compose.yml up -d
                     """
                 }
