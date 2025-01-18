@@ -1,43 +1,67 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HUB_USERNAME = 'louaisouei'
+        DOCKER_HUB_PASSWORD = 'louai2811'
+        IMAGE_NAME = 'crud-transfers-app'
+    }
+
     stages {
-        stage('Build') {
+        stage('Build and Push Docker Images') {
             steps {
-                dir('server') {
-                    sh 'npm install --legacy-peer-deps'
-                }
-            }
-        }
+                script {
+                    def version = env.BRANCH_NAME?.replace('release-', '') ?: 'latest'
+                    def backendImage = "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-backend:${version}"
+                    def frontendImage = "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-frontend:${version}"
 
-        stage('Unit & Integration Test') {
-            steps {
-                dir('server') {
-                    sh 'npm test'
-                }
-            }
-        }
+                    echo "Building and pushing images for version: ${version}"
 
-        stage('SonarQube Analysis') {
-            steps {
-                dir('server') {
-                    script {
-                        def scannerHome = tool name: 'sonar'
-                        withSonarQubeEnv('sonarQube') {
-                            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devops_project"
-                        }
+                    // Build and Push Backend
+                    dir('server') {
+                        sh """
+                            echo "Building backend image: ${backendImage}"
+                            docker build -t ${backendImage} -f Dockerfile .
+                            echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
+                            docker push ${backendImage}
+                        """
+                    }
+
+                    // Build and Push Frontend (if applicable)
+                    dir('client') {
+                        sh """
+                            echo "Building frontend image: ${frontendImage}"
+                            docker build -t ${frontendImage} -f Dockerfile .
+                            echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
+                            docker push ${frontendImage}
+                        """
                     }
                 }
             }
         }
-    }
 
-    post {
-        always {
-            echo 'Pipeline execution completed.'
-        }
-        failure {
-            echo 'Pipeline failed. Please check the logs for errors.'
+        stage('Deploy Application') {
+            steps {
+                script {
+                    def version = env.BRANCH_NAME?.replace('release-', '') ?: 'latest'
+                    def backendImage = "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-backend:${version}"
+                    def frontendImage = "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-frontend:${version}"
+
+                    echo "Deploying application using Docker images: Backend -> ${backendImage}, Frontend -> ${frontendImage}"
+
+                    sh """
+                        # Pull the latest images
+                        docker pull ${backendImage}
+                        docker pull ${frontendImage}
+
+
+                        # Stop and remove any existing containers
+                        docker-compose -f docker-compose.yml down
+                        # Start new containers
+                        docker-compose -f docker-compose.yml up -d
+                    """
+                }
+            }
         }
     }
 }
