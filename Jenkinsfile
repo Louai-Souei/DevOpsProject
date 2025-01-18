@@ -8,7 +8,7 @@ pipeline {
                     sh 'npm install'
                 }
                 dir('client') {
-                     sh 'npm install'
+                    sh 'npm install'
                 }
             }
         }
@@ -21,18 +21,26 @@ pipeline {
             }
         }
 
-
-        stage('SonarQube analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 dir('server') {
                     script {
                         def scannerHome = tool name: 'sonar'
                         withSonarQubeEnv('sonarQube') {
-                            sh '/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar/bin/sonar-scanner -Dsonar.projectKey=devops_project'
+                            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=devops_project"
                         }
                     }
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs for errors.'
         }
     }
 }
