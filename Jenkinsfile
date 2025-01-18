@@ -4,24 +4,24 @@ pipeline {
     environment {
         DOCKER_HUB_USERNAME = 'louaisouei'
         DOCKER_HUB_PASSWORD = 'louai2811'
-        BRANCH = "release-${env.BRANCH_NAME.replace('release-', '')}"
+        BRANCH_NAME = "${env.BRANCH_NAME ?: 'default-branch'}" // Set default value in case BRANCH_NAME is null
+        BRANCH = "release-${BRANCH_NAME.replace('release-', '')}"
         IMAGE_NAME = "devops-project"
-
     }
 
     stages {
-
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    sh """
-                        echo "BRANCH_NAME: ${env.BRANCH_NAME}"
-                        echo "BRANCH: ${BRANCH}"
-                        cd server
-                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH} -f ./Dockerfile .
-                        echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
-                        docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH}
-                    """
+                    echo "BRANCH_NAME: ${env.BRANCH_NAME}"
+                    echo "BRANCH: ${BRANCH}"
+                    dir('server') {
+                        sh """
+                            docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH} -f ./Dockerfile .
+                            echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
+                            docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH}
+                        """
+                    }
                 }
             }
         }
