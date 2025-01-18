@@ -12,9 +12,11 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
+                    def version = env.BRANCH_NAME.replace('release-', '')
+                    def imageName = "louai/crud-transfers-ap:${version}"
                     sh """
                         cd server
-                        docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${RELEASE_VERSION} -f ./Dockerfile .
+                        docker build -t ${DOCKER_HUB_USERNAME}/${imageName}-backend -f ./Dockerfile .
                         echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
                         docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${RELEASE_VERSION}
                     """
@@ -25,8 +27,9 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 script {
+
                     sh """
-                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${RELEASE_VERSION}
+                        docker pull ${DOCKER_HUB_USERNAME}/${imageName}
                         docker-compose -f docker-compose.yml up -d
                     """
                 }
