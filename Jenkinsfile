@@ -33,16 +33,5 @@ pipeline {
                 }
             }
         }
-
-//         stage('Integration Test') {
-//             when {
-//                 changeRequest()
-//             }
-//             steps {
-//                 dir('server') {
-//                     sh 'npm run integration-test'
-//                 }
-//             }
-//         }
     }
 }
