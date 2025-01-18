@@ -61,8 +61,8 @@ pipeline {
                         echo "Running application using pulled images"
                         docker network create pipeline_network || true
 
-                        docker run -d --name back --network pipeline_network -p 8080:8080 ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
-                        docker run -d --name front --network pipeline_network -p 3000:3000 ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
+                        docker run -d --name back --network pipeline_network -p 5000:5000 ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
+                        docker run -d --name front --network pipeline_network -p 4000:3050 ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
                     """
                 }
             }
