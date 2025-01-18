@@ -14,9 +14,7 @@ services:
     ports:
       - "3050:80"
   api:
-    build:
-      dockerfile: Dockerfile.dev
-      context: "./server"
+    image: louaisouei/devops-project-back:release-default-branch
     volumes:
       - /app/node_modules
       - ./server:/app
@@ -30,9 +28,7 @@ services:
     stdin_open: true
     environment:
       - CHOKIDAR_USEPOLLING=true
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./client
+    image: ouaisouei/devops-project-front:release-default-branch
     volumes:
       - /app/node_modules
       - ./client:/app
