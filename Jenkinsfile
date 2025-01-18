@@ -17,14 +17,14 @@ pipeline {
                     echo "BRANCH: ${BRANCH}"
                     dir('client') {
                         sh """
-                            docker build -t ${DOCKER_HUB_USERNAME}Front/${IMAGE_NAME}:${BRANCH} -f ./Dockerfile .
+                            docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH} -f ./Dockerfile .
                             echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
                             docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH}
                         """
                     }
                     dir('server') {
                         sh """
-                            docker build -t ${DOCKER_HUB_USERNAME}Back/${IMAGE_NAME}:${BRANCH} -f ./Dockerfile .
+                            docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH} -f ./Dockerfile .
                             echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
                             docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH}
                         """
