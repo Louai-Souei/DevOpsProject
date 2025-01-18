@@ -7,6 +7,8 @@ pipeline {
                 dir('server') {
                     sh 'npm install'
                 }
+
+            }
         }
 
         stage('Unit & Integration Test') {
