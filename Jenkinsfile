@@ -50,23 +50,23 @@ pipeline {
             }
         }
 
-        stage('Run Containers from Pulled Images') {
-            steps {
-                script {
-                    sh """
-                        echo "Stopping and removing existing containers"
-                        docker ps -q | xargs -r docker stop
-                        docker ps -aq | xargs -r docker rm
-
-                        echo "Running application using pulled images"
-                        docker network create pipeline_network || true
-
-                        docker run -d --name back --network pipeline_network -p 5000:5000 ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
-                        docker run -d --name front --network pipeline_network -p 4000:3050 ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
-                    """
-                }
-            }
-        }
+//         stage('Run Containers from Pulled Images') {
+//             steps {
+//                 script {
+//                     sh """
+//                         echo "Stopping and removing existing containers"
+//                         docker ps -q | xargs -r docker stop
+//                         docker ps -aq | xargs -r docker rm
+//
+//                         echo "Running application using pulled images"
+//                         docker network create pipeline_network || true
+//
+//                         docker run -d --name back --network pipeline_network -p 5000:5000 ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
+//                         docker run -d --name front --network pipeline_network -p 4000:3050 ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
+//                     """
+//                 }
+//             }
+//         }
 
         stage('Restart with Docker Compose') {
             steps {
