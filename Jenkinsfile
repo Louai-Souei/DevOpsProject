@@ -54,6 +54,7 @@ pipeline {
                         docker pull ${backendImage}
                         docker pull ${frontendImage}
 
+
                         # Stop and remove any existing containers
                         docker-compose -f docker-compose.yml down
                         # Start new containers
