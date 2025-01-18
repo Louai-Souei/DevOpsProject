@@ -28,7 +28,7 @@ services:
     stdin_open: true
     environment:
       - CHOKIDAR_USEPOLLING=true
-    image: ouaisouei/devops-project-front:release-default-branch
+    image: louaisouei/devops-project-front:release-default-branch
     volumes:
       - /app/node_modules
       - ./client:/app
