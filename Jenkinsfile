@@ -38,8 +38,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                        docker pull ${DOCKER_HUB_USERNAME}Back/${IMAGE_NAME}:${BRANCH}
-                        docker pull ${DOCKER_HUB_USERNAME}Front/${IMAGE_NAME}:${BRANCH}
+                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
+                        docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
                         docker-compose -f docker-compose.yml down
                         docker ps -q | xargs -r docker stop
                         docker-compose -f docker-compose.yml up -d
