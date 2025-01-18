@@ -15,7 +15,7 @@ const MainComponent = () => {
   // Fetch all transfers
   const fetchTransfers = useCallback(async () => {
     try {
-      const response = await axios.get("/api/transfers/all");
+      const response = await axios.get("http://localhost:5000/api/transfers/all");
       setTransfers(response.data.data); // Make sure response structure matches this
     } catch (err) {
       console.error("Error fetching transfers:", err);
@@ -38,7 +38,7 @@ const MainComponent = () => {
         await axios.put(`/api/transfers/${editingTransfer.id}`, formData);
       } else {
         // Create new transfer
-        await axios.post("/api/transfers", formData);
+        await axios.post("http://localhost:5000/transfers", formData);
       }
 
       setFormData({ name: "", amount: "" });
