@@ -88,7 +88,7 @@ const MainComponent = () => {
 
   return (
       <div className="main-container">
-        <h1 className="header">Transfers Management</h1>
+        <h1 className="header">Transfers Management Test Feature</h1>
 
         {/* Transfer List */}
         <div className="transfer-list">
