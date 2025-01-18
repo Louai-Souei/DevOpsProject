@@ -4,7 +4,6 @@ pipeline {
     environment {
         DOCKER_HUB_USERNAME = 'louaisouei'
         DOCKER_HUB_PASSWORD = 'louai2811'
-        RELEASE_VERSION = env.BRANCH_NAME.replace('release-', '')
         IMAGE_NAME = 'louai/crud-transfers-app'
     }
 
