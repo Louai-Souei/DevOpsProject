@@ -7,9 +7,6 @@ pipeline {
                 dir('server') {
                     sh 'npm install --legacy-peer-deps'
                 }
-                dir('client') {
-                    sh 'npm install --legacy-peer-deps'
-                }
             }
         }
 
