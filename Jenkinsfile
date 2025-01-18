@@ -5,10 +5,10 @@ pipeline {
         stage('Build') {
             steps {
                 dir('server') {
-                    sh 'npm install --legacy-peer-deps'
+                    sh 'npm install --legacy-peer-deps --force'
                 }
                 dir('client') {
-                    sh 'npm install --legacy-peer-deps'
+                    sh 'npm install --legacy-peer-deps --force'
                 }
             }
         }
