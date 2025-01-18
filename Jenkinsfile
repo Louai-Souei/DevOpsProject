@@ -57,7 +57,8 @@ pipeline {
                         # Stop and remove any existing containers
                         docker-compose -f docker-compose.yml down
 
-
+                        # Start new containers
+                        docker-compose -f docker-compose.yml up -d
                     """
                 }
             }
