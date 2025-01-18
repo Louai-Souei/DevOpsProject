@@ -8,6 +8,9 @@ pipeline {
                 dir('server') {
                     sh 'npm install'
                 }
+                dir('client') {
+                     sh 'npm install'
+                }
             }
         }
 
