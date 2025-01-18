@@ -24,9 +24,9 @@ pipeline {
                     }
                     dir('server') {
                         sh """
-                            docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH} -f ./Dockerfile .
-                            echo "${DOCKER_HUB_PASSWORD}" | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
-                            docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH}
+                           docker build -t ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH} -f ./Dockerfile .
+                           docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
+                           docker push ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:${BRANCH}
                         """
                     }
 
@@ -38,6 +38,7 @@ pipeline {
             steps {
                 script {
                     sh """
+                        echo "Attempting to pull: ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}"
                         docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-back:${BRANCH}
                         docker pull ${DOCKER_HUB_USERNAME}/${IMAGE_NAME}-front:${BRANCH}
                         docker-compose -f docker-compose.yml down
