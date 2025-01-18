@@ -21,6 +21,7 @@ pipeline {
             }
         }
 
+
         stage('SonarQube analysis') {
             steps {
                 dir('server') {
